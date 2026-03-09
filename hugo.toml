@@ -1,0 +1,15 @@
+baseURL = 'https://tonitalej.github.io/'
+languageCode = 'en-us'
+title = 'Toni Talej'
+theme = 'nojs'
+
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 1
+
+  [[menus.main]]
+    name = 'Blog'
+    pageRef = '/blog'
+    weight = 2
