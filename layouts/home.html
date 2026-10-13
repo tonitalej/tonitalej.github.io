@@ -9,15 +9,11 @@
   <!-- Hero -->
   <section class="hero" aria-labelledby="hero-title">
     <canvas class="hero-canvas" data-network aria-hidden="true"></canvas>
-    <div class="hero-glow" aria-hidden="true"></div>
     <div class="container hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow reveal">
-          <span class="pulse" aria-hidden="true"></span>
-          {{ site.Params.role }}
-        </p>
+        <p class="eyebrow reveal">{{ site.Params.role }}</p>
         <h1 id="hero-title" class="hero-title reveal">
-          Hi, I'm <span class="gradient-text">Toni Talej</span>.
+          Hi, I'm <span class="marker">Toni Talej</span>.
         </h1>
         <p class="hero-typed reveal" aria-label="I connect networks, Linux systems, cloud infrastructure and full-stack apps.">
           <span aria-hidden="true">I connect </span
@@ -44,7 +40,7 @@
       </div>
 
       <figure class="hero-photo reveal">
-        <div class="photo-frame" data-tilt>
+        <div class="photo-frame">
           <picture>
             <source type="image/webp" srcset="{{ $p480.RelPermalink }} 480w, {{ $p720.RelPermalink }} 720w" sizes="(max-width: 900px) 70vw, 360px" />
             <img
@@ -55,12 +51,13 @@
               fetchpriority="high"
             />
           </picture>
-          <span class="photo-badge photo-badge-top">{{ partial "icon.html" "pin" }} {{ site.Params.location }}</span>
-          <span class="photo-badge photo-badge-bottom">{{ partial "icon.html" "graduation" }} Telecom &amp; Networks Eng.</span>
+          <p class="photo-caption">
+            <span>{{ partial "icon.html" "graduation" }} Graduation day</span>
+            <span>{{ partial "icon.html" "pin" }} {{ site.Params.location }}</span>
+          </p>
         </div>
       </figure>
     </div>
-    <a class="scroll-cue" href="#about" aria-label="Scroll to About"><span></span></a>
   </section>
 
 

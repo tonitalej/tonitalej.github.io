@@ -176,13 +176,13 @@ function setupNetwork() {
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const count = Math.max(24, Math.min(90, Math.round((w * h) / 15000)));
+    const count = Math.max(18, Math.min(60, Math.round((w * h) / 24000)));
     nodes = Array.from({ length: count }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() < 0.12 ? 3.2 : 1.6 + Math.random() * 1.2,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.18,
+      r: Math.random() < 0.12 ? 2.6 : 1.4 + Math.random(),
     }));
     packets = [];
     if (!running) draw();
@@ -217,7 +217,7 @@ function setupNetwork() {
         n.y += (dy / d) * 0.6;
       }
     }
-    if (packets.length < 14 && Math.random() < 0.08) spawnPacket();
+    if (packets.length < 6 && Math.random() < 0.03) spawnPacket();
     packets = packets.filter((p) => (p.t += p.speed) < 1);
   }
 
@@ -248,12 +248,9 @@ function setupNetwork() {
     for (const p of packets) {
       const x = p.a.x + (p.b.x - p.a.x) * p.t;
       const y = p.a.y + (p.b.y - p.a.y) * p.t;
-      const g = ctx.createRadialGradient(x, y, 0, x, y, 8);
-      g.addColorStop(0, `rgba(${colors.node}, 0.95)`);
-      g.addColorStop(1, `rgba(${colors.node}, 0)`);
-      ctx.fillStyle = g;
+      ctx.fillStyle = `rgba(${colors.node}, 0.9)`;
       ctx.beginPath();
-      ctx.arc(x, y, 8, 0, Math.PI * 2);
+      ctx.arc(x, y, 2.2, 0, Math.PI * 2);
       ctx.fill();
     }
   }
@@ -296,22 +293,6 @@ function setupNetwork() {
   });
   resize();
   update();
-}
-
-/* ---------- Photo tilt ---------- */
-
-function setupTilt() {
-  const frame = $('[data-tilt]');
-  if (!frame || reducedMotion || matchMedia('(hover: none)').matches) return;
-  frame.addEventListener('pointermove', (e) => {
-    const r = frame.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    frame.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg)`;
-  });
-  frame.addEventListener('pointerleave', () => {
-    frame.style.transform = '';
-  });
 }
 
 /* ---------- Count-up stats ---------- */
@@ -614,7 +595,6 @@ setupHeader();
 setupReveal();
 setupTyped();
 setupNetwork();
-setupTilt();
 setupCounters();
 setupFilters();
 setupCopy();
