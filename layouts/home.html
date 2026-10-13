@@ -8,12 +8,18 @@
 
   <!-- Hero -->
   <section class="hero" aria-labelledby="hero-title">
+    <canvas class="hero-canvas" data-network aria-hidden="true"></canvas>
     <div class="container hero-inner">
       <div class="hero-copy">
         <p class="eyebrow">{{ site.Params.role }}</p>
         <h1 id="hero-title" class="hero-title">
           Hi, I'm Toni Talej.
         </h1>
+        <p class="hero-typed" aria-label="I work with networks, Linux servers, CI/CD pipelines and web apps.">
+          <span aria-hidden="true">I work with </span
+          ><span class="typed" data-typed='["networks.", "Linux servers.", "CI/CD pipelines.", "web apps in TypeScript."]' aria-hidden="true">networks.</span
+          ><span class="caret" aria-hidden="true"></span>
+        </p>
         <p class="hero-lead">
           I'm a telecommunications and networks engineer from Joun, Lebanon. Most of my time goes into Linux and
           DevOps, I'm learning cloud right now, and on the side I build full-stack projects in TypeScript.
@@ -58,7 +64,7 @@
   <!-- About -->
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="container about-grid">
-      <div class="about-copy">
+      <div class="about-copy reveal">
         <h2 id="about-title" class="section-title">About me</h2>
         <p>
           I'm a <strong>telecommunications engineering graduate</strong> from the Lebanese University with a strong
@@ -87,7 +93,7 @@
         "skills" site.Data.skills
         "projects" site.Data.projects
       -}}
-      <div class="terminal" data-terminal data-info="{{ $info | jsonify }}">
+      <div class="terminal reveal" data-terminal data-info="{{ $info | jsonify }}">
         <div class="terminal-bar">
           <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
           <span class="terminal-title">toni@joun: ~</span>
@@ -110,12 +116,12 @@
   <!-- Skills -->
   <section class="section section-alt" id="skills" aria-labelledby="skills-title">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2 id="skills-title" class="section-title">Skills</h2>
       </div>
       <div class="skills-grid">
         {{- range $g := site.Data.skills }}
-          <article class="skill-card">
+          <article class="skill-card reveal">
             <h3>{{ $g.title }}</h3>
             <p class="muted">{{ $g.blurb }}</p>
             <ul class="chips">
@@ -124,11 +130,23 @@
           </article>
         {{- end }}
       </div>
-      <p class="osi-note muted">The seven OSI layers, since that's what my degree was about:</p>
-      <div class="osi" aria-label="The seven layers of the OSI model">
-        {{- range $i, $l := slice "Physical" "Data link" "Network" "Transport" "Session" "Presentation" "Application" }}
-          <span class="osi-layer"><b>L{{ add $i 1 }}</b> {{ $l }}</span>
-        {{- end }}
+      {{- $layers := slice
+        (dict "name" "Physical" "what" "cables, fiber and radio. Bits turned into signals, which is where my transmission and wireless courses live.")
+        (dict "name" "Data link" "what" "Ethernet frames, MAC addresses, switches and VLANs.")
+        (dict "name" "Network" "what" "IP addressing, subnetting and routing traffic between networks.")
+        (dict "name" "Transport" "what" "TCP and UDP. Ports, reliable delivery and flow control.")
+        (dict "name" "Session" "what" "opening, keeping and closing conversations between two applications.")
+        (dict "name" "Presentation" "what" "data formats, compression and encryption such as TLS.")
+        (dict "name" "Application" "what" "HTTP, DNS and SSH, plus the web apps and APIs I build on top of them.")
+      }}
+      <div class="osi-box reveal">
+        <p class="osi-note muted">The seven OSI layers, since that's what my degree was about. Click one:</p>
+        <div class="osi" role="group" aria-label="The seven layers of the OSI model">
+          {{- range $i, $l := $layers }}
+            <button type="button" class="osi-layer" data-osi="{{ $l.what }}" aria-pressed="false"><b>L{{ add $i 1 }}</b> {{ $l.name }}</button>
+          {{- end }}
+        </div>
+        <p class="osi-detail" data-osi-detail aria-live="polite">Pick a layer to see what it covers.</p>
       </div>
     </div>
   </section>
@@ -137,7 +155,7 @@
   <!-- Projects -->
   <section class="section" id="projects" aria-labelledby="projects-title">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2 id="projects-title" class="section-title">Projects</h2>
         {{- $tags := slice -}}
         {{- range site.Data.projects }}{{ $tags = $tags | append .tags }}{{ end -}}
@@ -152,7 +170,7 @@
       <div class="projects-grid" data-projects>
         {{- range site.Data.projects }}
           {{- $url := printf "https://github.com/%s/%s" site.Params.github .repo -}}
-          <article class="project-card{{ if .featured }} is-featured{{ end }}" data-tags="{{ delimit .tags "," }}" data-repo="{{ .repo }}">
+          <article class="project-card reveal{{ if .featured }} is-featured{{ end }}" data-tags="{{ delimit .tags "," }}" data-repo="{{ .repo }}">
             <div class="project-top">
               {{ if .featured }}<span class="badge">Featured</span>{{ end }}
               <span class="repo-meta" data-repo-meta hidden>
@@ -186,12 +204,12 @@
   <!-- Journey -->
   <section class="section section-alt" id="journey" aria-labelledby="journey-title">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2 id="journey-title" class="section-title">Background</h2>
       </div>
       <ol class="timeline">
         {{- range site.Data.journey }}
-          <li class="timeline-item">
+          <li class="timeline-item reveal">
             <span class="timeline-dot" aria-hidden="true"></span>
             <div class="timeline-card{{ if .photo }} has-photo{{ end }}">
               <div>
@@ -216,7 +234,7 @@
   <!-- Blog -->
   <section class="section" id="blog" aria-labelledby="blog-title">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2 id="blog-title" class="section-title">Blog</h2>
       </div>
       {{ if $posts }}
@@ -238,7 +256,7 @@
   <!-- Contact -->
   <section class="section contact" id="contact" aria-labelledby="contact-title">
     <div class="container">
-      <div class="contact-card">
+      <div class="contact-card reveal">
         <h2 id="contact-title" class="section-title">Get in touch</h2>
         <p class="muted">Email is the best way to reach me, whether it's about a job, a project or a question.</p>
         <div class="contact-actions">
