@@ -40,9 +40,9 @@
 
 - title: 'This website'
   repo: 'tonitalej.github.io'
-  summary: 'My personal site: a hand-built Hugo theme with an animated network topology, an interactive terminal and live GitHub data, deployed by GitHub Actions.'
+  summary: 'The site you're on. Built with Hugo and plain CSS and JavaScript, with a small terminal you can type into and repo info pulled from GitHub.'
   highlights:
     - 'No frameworks, no trackers, no external fonts'
-    - 'Accessible, responsive, light and dark themes'
+    - 'Light and dark theme, works on phones'
   stack: ['Hugo', 'CSS', 'JavaScript', 'GitHub Actions']
   tags: ['DevOps', 'JavaScript']

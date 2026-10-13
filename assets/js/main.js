@@ -25,21 +25,16 @@ function setupTheme() {
   });
 }
 
-/* ---------- Header: scrolled state, progress bar, mobile menu, active section ---------- */
+/* ---------- Header: scrolled state, mobile menu, active section ---------- */
 
 function setupHeader() {
   const header = $('[data-header]');
-  const progress = $('[data-progress]');
   const nav = $('[data-nav]');
   const menuBtn = $('[data-menu-toggle]');
   if (!header) return;
 
   const onScroll = () => {
     header.classList.toggle('is-scrolled', window.scrollY > 10);
-    if (progress) {
-      const max = document.documentElement.scrollHeight - innerHeight;
-      progress.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
-    }
   };
   onScroll();
   addEventListener('scroll', onScroll, { passive: true });
@@ -86,237 +81,6 @@ function setupHeader() {
     { rootMargin: '-45% 0px -50% 0px' },
   );
   sections.forEach((s) => io.observe(s));
-}
-
-/* ---------- Reveal on scroll ---------- */
-
-function setupReveal() {
-  const items = $$('.reveal, .osi');
-  if (reducedMotion || !('IntersectionObserver' in window)) {
-    items.forEach((el) => el.classList.add('is-visible'));
-    return;
-  }
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      }
-    },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-  );
-  items.forEach((el) => io.observe(el));
-}
-
-/* ---------- Typed roles ---------- */
-
-function setupTyped() {
-  const el = $('[data-typed]');
-  if (!el) return;
-  let words;
-  try {
-    words = JSON.parse(el.dataset.typed);
-  } catch {
-    return;
-  }
-  if (reducedMotion || words.length < 2) return;
-  let w = 0;
-  let shown = words[0].length;
-  let deleting = true;
-  const tick = () => {
-    if (deleting) {
-      shown--;
-      if (shown === 0) {
-        deleting = false;
-        w = (w + 1) % words.length;
-      }
-    } else {
-      shown++;
-    }
-    el.textContent = words[w].slice(0, shown);
-    const full = !deleting && shown === words[w].length;
-    if (full) deleting = true;
-    setTimeout(tick, full ? 1900 : deleting ? 38 : 75);
-  };
-  setTimeout(tick, 2200);
-}
-
-/* ---------- Network topology animation ---------- */
-
-function setupNetwork() {
-  const canvas = $('[data-network]');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  let w = 0;
-  let h = 0;
-  let dpr = 1;
-  let nodes = [];
-  let packets = [];
-  let running = false;
-  let visible = true;
-  let raf = 0;
-  let colors = readColors();
-  const pointer = { x: -9999, y: -9999 };
-  const LINK = 150;
-
-  function readColors() {
-    const cs = getComputedStyle(document.documentElement);
-    return { node: cs.getPropertyValue('--net-node').trim(), link: cs.getPropertyValue('--net-link').trim() };
-  }
-
-  function resize() {
-    const rect = canvas.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = rect.width;
-    h = rect.height;
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const count = Math.max(18, Math.min(60, Math.round((w * h) / 24000)));
-    nodes = Array.from({ length: count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: (Math.random() - 0.5) * 0.18,
-      r: Math.random() < 0.12 ? 2.6 : 1.4 + Math.random(),
-    }));
-    packets = [];
-    if (!running) draw();
-  }
-
-  function spawnPacket() {
-    const a = nodes[Math.floor(Math.random() * nodes.length)];
-    let best = null;
-    let bestD = LINK;
-    for (const b of nodes) {
-      if (b === a) continue;
-      const d = Math.hypot(a.x - b.x, a.y - b.y);
-      if (d < bestD && Math.random() < 0.6) {
-        best = b;
-        bestD = d;
-      }
-    }
-    if (best) packets.push({ a, b: best, t: 0, speed: 0.008 + Math.random() * 0.012 });
-  }
-
-  function step() {
-    for (const n of nodes) {
-      n.x += n.vx;
-      n.y += n.vy;
-      if (n.x < 0 || n.x > w) n.vx *= -1;
-      if (n.y < 0 || n.y > h) n.vy *= -1;
-      const dx = n.x - pointer.x;
-      const dy = n.y - pointer.y;
-      const d = Math.hypot(dx, dy);
-      if (d < 120 && d > 0) {
-        n.x += (dx / d) * 0.6;
-        n.y += (dy / d) * 0.6;
-      }
-    }
-    if (packets.length < 6 && Math.random() < 0.03) spawnPacket();
-    packets = packets.filter((p) => (p.t += p.speed) < 1);
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    for (let i = 0; i < nodes.length; i++) {
-      const a = nodes[i];
-      for (let j = i + 1; j < nodes.length; j++) {
-        const b = nodes[j];
-        const d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d < LINK) {
-          ctx.strokeStyle = `rgba(${colors.link}, ${0.22 * (1 - d / LINK)})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-    }
-    for (const n of nodes) {
-      const near = Math.hypot(n.x - pointer.x, n.y - pointer.y) < 160;
-      ctx.fillStyle = `rgba(${colors.node}, ${near ? 0.95 : 0.55})`;
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    for (const p of packets) {
-      const x = p.a.x + (p.b.x - p.a.x) * p.t;
-      const y = p.a.y + (p.b.y - p.a.y) * p.t;
-      ctx.fillStyle = `rgba(${colors.node}, 0.9)`;
-      ctx.beginPath();
-      ctx.arc(x, y, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  function loop() {
-    step();
-    draw();
-    raf = requestAnimationFrame(loop);
-  }
-
-  function update() {
-    const shouldRun = !reducedMotion && visible && document.visibilityState === 'visible';
-    if (shouldRun && !running) {
-      running = true;
-      raf = requestAnimationFrame(loop);
-    } else if (!shouldRun && running) {
-      running = false;
-      cancelAnimationFrame(raf);
-    }
-  }
-
-  const hero = canvas.parentElement;
-  hero.addEventListener('pointermove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    pointer.x = e.clientX - rect.left;
-    pointer.y = e.clientY - rect.top;
-  });
-  hero.addEventListener('pointerleave', () => {
-    pointer.x = pointer.y = -9999;
-  });
-  new ResizeObserver(resize).observe(canvas);
-  new IntersectionObserver(([e]) => {
-    visible = e.isIntersecting;
-    update();
-  }).observe(canvas);
-  document.addEventListener('visibilitychange', update);
-  addEventListener('themechange', () => {
-    colors = readColors();
-    if (!running) draw();
-  });
-  resize();
-  update();
-}
-
-/* ---------- Count-up stats ---------- */
-
-function setupCounters() {
-  const els = $$('[data-count]');
-  if (reducedMotion || els.length === 0) return;
-  const io = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      io.unobserve(entry.target);
-      const el = entry.target;
-      const target = Number(el.dataset.count);
-      const start = performance.now();
-      const dur = 1100;
-      const frame = (now) => {
-        const t = Math.min(1, (now - start) / dur);
-        el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
-        if (t < 1) requestAnimationFrame(frame);
-      };
-      requestAnimationFrame(frame);
-    }
-  });
-  els.forEach((el) => io.observe(el));
 }
 
 /* ---------- Project filters ---------- */
@@ -592,10 +356,6 @@ function setupTerminal() {
 
 setupTheme();
 setupHeader();
-setupReveal();
-setupTyped();
-setupNetwork();
-setupCounters();
 setupFilters();
 setupCopy();
 setupTerminal();

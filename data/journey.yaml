@@ -1,10 +1,10 @@
 # Newest first. `when` is free text; leave it empty if you prefer not to show a date.
-- when: '2025 — now'
-  title: 'Building in public'
+- when: '2025 – present'
+  title: 'Personal projects'
   place: 'GitHub'
-  text: 'Designing and shipping full-stack TypeScript projects, from secure REST APIs to AI-assisted developer tools, while sharpening my Linux, CI/CD and cloud skills.'
+  text: 'Putting my projects on GitHub: web apps, APIs and a few developer tools. Practicing Linux, CI/CD and cloud along the way.'
 
-- when: '2024 — 2025'
+- when: '2024 – 2025'
   title: 'Vocational & Technical Training Program'
   place: 'Hariri Foundation for Sustainable Human Development'
   text: 'Completed the foundation''s technical training program and graduated with the 2024–2025 class.'
