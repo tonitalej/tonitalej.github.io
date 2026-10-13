@@ -40,7 +40,7 @@
 
 - title: 'This website'
   repo: 'tonitalej.github.io'
-  summary: 'The site you're on. Built with Hugo and plain CSS and JavaScript, with a small terminal you can type into and repo info pulled from GitHub.'
+  summary: 'The site you''re on. Built with Hugo and plain CSS and JavaScript, with a small terminal you can type into and repo info pulled from GitHub.'
   highlights:
     - 'No frameworks, no trackers, no external fonts'
     - 'Light and dark theme, works on phones'
