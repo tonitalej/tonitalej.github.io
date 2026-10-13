@@ -78,6 +78,10 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -1555,10 +1559,9 @@ p {
     padding: 0 1.25rem;
     max-height: 0;
     overflow: hidden;
-    background: color-mix(in srgb, var(--bg) 94%, transparent);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: var(--bg);
     border-bottom: 1px solid transparent;
+    box-shadow: 0 24px 40px -24px rgba(0, 0, 0, 0.5);
     transition: max-height 0.35s var(--ease), padding 0.35s var(--ease), border-color 0.35s;
   }
 
@@ -1583,8 +1586,8 @@ p {
   }
 
   .site-header:has(.nav.is-open) {
-    background: color-mix(in srgb, var(--bg) 94%, transparent);
-    backdrop-filter: blur(14px);
+    background: var(--bg);
+    border-bottom-color: var(--border);
   }
 
   .hero-inner,
@@ -1599,7 +1602,7 @@ p {
 
   .hero-photo {
     order: -1;
-    width: min(72%, 300px);
+    width: min(58%, 240px);
   }
 
   .photo-badge-top {

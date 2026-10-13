@@ -4,6 +4,9 @@ title = 'Toni Talej'
 enableRobotsTXT = true
 summaryLength = 30
 
+[taxonomies]
+  tag = 'tags'
+
 [params]
   description = 'Toni Talej — telecommunications and networks engineer from Lebanon. Networking, Linux, DevOps and cloud, plus full-stack TypeScript projects.'
   role = 'Telecommunications & Networks Engineer'

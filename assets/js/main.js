@@ -69,6 +69,8 @@ function setupHeader() {
   const links = $$('.nav-link[data-section]');
   const sections = links.map((l) => document.getElementById(l.dataset.section)).filter(Boolean);
   if (sections.length === 0) return;
+  const hero = $('.hero');
+  if (hero) sections.push(hero);
   const io = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
