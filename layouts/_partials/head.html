@@ -1,0 +1,59 @@
+{{- $title := cond .IsHome (printf "%s — %s" site.Title site.Params.role) (printf "%s · %s" .Title site.Title) -}}
+{{- $desc := cond .IsHome site.Params.description (.Description | default .Summary | default site.Params.description | plainify | truncate 160) -}}
+{{- $avatar := resources.Get "images/avatar.jpg" -}}
+{{- $og := $avatar.Resize "600x600 jpg q85" -}}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta
+  http-equiv="Content-Security-Policy"
+  content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://api.github.com; base-uri 'self'; form-action 'none'; object-src 'none'"
+/>
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc }}" />
+<meta name="author" content="{{ site.Title }}" />
+<link rel="canonical" href="{{ .Permalink }}" />
+<meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f6f8fc" media="(prefers-color-scheme: light)" />
+<meta name="color-scheme" content="dark light" />
+
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+<meta property="og:title" content="{{ $title }}" />
+<meta property="og:description" content="{{ $desc }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:site_name" content="{{ site.Title }}" />
+<meta property="og:image" content="{{ $og.Permalink }}" />
+<meta name="twitter:card" content="summary" />
+
+{{- if .IsHome }}
+  <script type="application/ld+json">
+    {{ dict
+      "@context" "https://schema.org"
+      "@type" "Person"
+      "name" site.Title
+      "jobTitle" site.Params.role
+      "url" site.BaseURL
+      "image" $og.Permalink
+      "email" (printf "mailto:%s" site.Params.email)
+      "address" (dict "@type" "PostalAddress" "addressLocality" "Joun" "addressCountry" "LB")
+      "alumniOf" (dict "@type" "CollegeOrUniversity" "name" "Lebanese University")
+      "sameAs" (slice (printf "https://github.com/%s" site.Params.github) site.Params.linkedin)
+      | jsonify | safeJS
+    }}
+  </script>
+{{- end }}
+
+{{ $theme := resources.Get "js/theme.js" | js.Build (dict "minify" true) | fingerprint }}
+<script src="{{ $theme.RelPermalink }}" integrity="{{ $theme.Data.Integrity }}"></script>
+{{ $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" />
+{{ if .IsPage }}
+  {{ $syntax := resources.Get "css/syntax.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $syntax.RelPermalink }}" integrity="{{ $syntax.Data.Integrity }}" />
+{{ end }}
+
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+{{ with .OutputFormats.Get "rss" }}<link rel="alternate" type="application/rss+xml" title="{{ site.Title }} — Blog" href="{{ .Permalink }}" />{{ end }}

@@ -1,0 +1,42 @@
+/* Code highlighting for blog posts (Chroma classes). */
+.chroma .c,
+.chroma .c1,
+.chroma .cm {
+  color: #7d8ba3;
+  font-style: italic;
+}
+.chroma .k,
+.chroma .kd,
+.chroma .kn,
+.chroma .kr {
+  color: #c4a7ff;
+}
+.chroma .s,
+.chroma .s1,
+.chroma .s2,
+.chroma .sb {
+  color: #7ee2b8;
+}
+.chroma .m,
+.chroma .mi,
+.chroma .mf {
+  color: #fdba74;
+}
+.chroma .nf,
+.chroma .fm {
+  color: #67e8f9;
+}
+.chroma .nb,
+.chroma .bp {
+  color: #93c5fd;
+}
+.chroma .o,
+.chroma .p {
+  color: #cbd5e1;
+}
+.chroma .gd {
+  color: #fca5a5;
+}
+.chroma .gi {
+  color: #86efac;
+}

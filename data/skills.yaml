@@ -1,0 +1,43 @@
+# Edit freely: each group becomes a card in the Skills section.
+- title: 'Networking & Telecom'
+  icon: 'network'
+  blurb: 'The foundation of my engineering degree.'
+  items:
+    - 'TCP/IP & subnetting'
+    - 'Routing & switching'
+    - 'Network design'
+    - 'Wireless & mobile communications'
+    - 'Telecommunication systems'
+    - 'Troubleshooting'
+
+- title: 'Linux & DevOps'
+  icon: 'terminal'
+  blurb: 'Where I spend most of my time.'
+  items:
+    - 'Linux administration'
+    - 'Bash & the command line'
+    - 'Git & GitHub'
+    - 'GitHub Actions (CI/CD)'
+    - 'Static sites with Hugo'
+
+- title: 'Software'
+  icon: 'code'
+  blurb: 'Full-stack tools I have built and shipped.'
+  items:
+    - 'TypeScript'
+    - 'Node.js & Express'
+    - 'React'
+    - 'PostgreSQL & Supabase'
+    - 'SQLite'
+    - 'REST APIs & JWT auth'
+    - 'Automated testing'
+
+- title: 'Currently exploring'
+  icon: 'cloud'
+  blurb: 'What I am learning next.'
+  items:
+    - 'Cloud platforms'
+    - 'Containers'
+    - 'Infrastructure as code'
+    - 'Monitoring & observability'
+    - 'AI-assisted tooling'

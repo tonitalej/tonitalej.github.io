@@ -1,0 +1,27 @@
+{{ define "main" }}
+  <article class="post">
+    <header class="page-hero">
+      <div class="container narrow">
+        <p class="post-meta">
+          <a href="/blog/">Blog</a> ·
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+          · {{ .ReadingTime }} min read
+        </p>
+        <h1 class="section-title">{{ .Title }}</h1>
+        {{ with .Params.tags }}<ul class="stack">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>{{ end }}
+      </div>
+    </header>
+    <div class="section section-tight">
+      <div class="container narrow">
+        {{ if and (gt .WordCount 400) .TableOfContents }}
+          <details class="toc"><summary>On this page</summary>{{ .TableOfContents }}</details>
+        {{ end }}
+        <div class="prose">{{ .Content }}</div>
+        <nav class="post-nav" aria-label="More posts">
+          {{ with .PrevInSection }}<a class="btn btn-ghost" href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}
+          {{ with .NextInSection }}<a class="btn btn-ghost" href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}
+        </nav>
+      </div>
+    </div>
+  </article>
+{{ end }}

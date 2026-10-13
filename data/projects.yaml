@@ -1,0 +1,48 @@
+# `repo` links the card to GitHub and enables live star / update info.
+# `tags` drive the filter buttons in the Projects section.
+- title: 'Conversation Map'
+  repo: 'conversation-map'
+  featured: true
+  summary: 'A Codex plugin that turns any conversation into an interactive, evidence-linked knowledge map. Decisions, open questions, action items and conflicts are separated, and every entry links to a quote that is verified against the transcript.'
+  highlights:
+    - 'Deterministic validator checks every quote, speaker and owner'
+    - 'Self-contained offline HTML viewer with strict Content-Security-Policy'
+    - '96 automated tests, including browser end-to-end tests'
+  stack: ['TypeScript', 'Node.js', 'd3-hierarchy', 'Playwright']
+  tags: ['AI', 'Tools', 'TypeScript']
+
+- title: 'AI PR Auditor'
+  repo: 'ai-native-technical-writer-and-pr-auditor'
+  summary: 'Connects a GitHub repository, syncs its pull requests and runs an AI audit of a pull request: generated technical documentation, security findings and a risk level.'
+  highlights:
+    - 'Background audit worker with structured model output'
+    - 'Postgres row-level security on Supabase'
+  stack: ['React', 'Express', 'Supabase', 'OpenAI API']
+  tags: ['AI', 'Full-stack', 'TypeScript']
+
+- title: 'Task Manager'
+  repo: 'TASK-MANAGER-TS'
+  summary: 'A multi-user task manager where every user manages their own tasks, with search, filters, sorting and pagination.'
+  highlights:
+    - 'Layered API: routes, validation, services, repositories'
+    - 'JWT auth, bcrypt, rate limiting, Helmet, parameterised SQL'
+  stack: ['Express 5', 'React 19', 'PostgreSQL', 'JWT']
+  tags: ['Full-stack', 'Security', 'TypeScript']
+
+- title: 'LatestNews'
+  repo: 'Blog-Website-'
+  summary: 'A blog platform with public reading, author and admin roles, and a dashboard for posts, topics, users and contact messages.'
+  highlights:
+    - 'Role-based access for admins and authors'
+    - 'Zero-setup SQLite storage'
+  stack: ['Node.js', 'JavaScript', 'SQLite']
+  tags: ['Full-stack', 'JavaScript']
+
+- title: 'This website'
+  repo: 'tonitalej.github.io'
+  summary: 'My personal site: a hand-built Hugo theme with an animated network topology, an interactive terminal and live GitHub data, deployed by GitHub Actions.'
+  highlights:
+    - 'No frameworks, no trackers, no external fonts'
+    - 'Accessible, responsive, light and dark themes'
+  stack: ['Hugo', 'CSS', 'JavaScript', 'GitHub Actions']
+  tags: ['DevOps', 'JavaScript']

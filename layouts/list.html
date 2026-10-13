@@ -1,0 +1,24 @@
+{{ define "main" }}
+  <section class="page-hero">
+    <div class="container narrow">
+      <p class="section-kicker">{{ if eq .Section "blog" }}Blog{{ else }}{{ .Section | humanize }}{{ end }}</p>
+      <h1 class="section-title">{{ .Title }}</h1>
+      {{ with .Content }}<div class="prose muted">{{ . }}</div>{{ end }}
+    </div>
+  </section>
+  <section class="section section-tight">
+    <div class="container narrow">
+      {{ with .Pages.ByDate.Reverse }}
+        <div class="posts-list">
+          {{ range . }}{{ partial "post-card.html" . }}{{ end }}
+        </div>
+      {{ else }}
+        <div class="empty-card">
+          {{ partial "icon.html" "rss" }}
+          <p><b>No posts yet.</b> Expect notes on networking, Linux, DevOps and my projects soon.</p>
+        </div>
+      {{ end }}
+      <p class="more"><a class="btn btn-ghost" href="/">← Back home</a></p>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,16 @@
+# Newest first. `when` is free text; leave it empty if you prefer not to show a date.
+- when: '2025 — now'
+  title: 'Building in public'
+  place: 'GitHub'
+  text: 'Designing and shipping full-stack TypeScript projects, from secure REST APIs to AI-assisted developer tools, while sharpening my Linux, CI/CD and cloud skills.'
+
+- when: '2024 — 2025'
+  title: 'Vocational & Technical Training Program'
+  place: 'Hariri Foundation for Sustainable Human Development'
+  text: 'Completed the foundation''s technical training program and graduated with the 2024–2025 class.'
+  photo: 'images/graduation.jpg'
+
+- when: ''
+  title: 'Telecommunications & Networks Engineering'
+  place: 'Lebanese University'
+  text: 'Engineering studies in telecommunications and computer networks: transmission, switching and routing, wireless systems and network design.'

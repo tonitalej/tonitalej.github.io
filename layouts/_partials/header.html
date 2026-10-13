@@ -1,0 +1,44 @@
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="{{ site.Title }}, home">
+      <span class="brand-mark" aria-hidden="true">TT</span>
+      <span class="brand-name">Toni<span class="accent">.</span>Talej</span>
+    </a>
+
+    <nav class="nav" aria-label="Main" data-nav>
+      <ul class="nav-list" id="nav-list">
+        {{- range site.Menus.main }}
+          {{- $href := .URL -}}
+          {{- $isBlog := and .Page (eq .Page.Section "blog") -}}
+          <li>
+            <a
+              class="nav-link{{ if and $isBlog (eq $.Section "blog") }} is-active{{ end }}"
+              href="{{ $href }}"
+              {{ with .URL }}{{ if hasPrefix . "/#" }}data-section="{{ strings.TrimPrefix "/#" . }}"{{ end }}{{ end }}
+              {{ if and $isBlog (eq $.Section "blog") }}aria-current="page"{{ end }}
+              >{{ .Name }}</a
+            >
+          </li>
+        {{- end }}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch color theme">
+        <span class="theme-icon theme-icon-sun">{{ partial "icon.html" "sun" }}</span>
+        <span class="theme-icon theme-icon-moon">{{ partial "icon.html" "moon" }}</span>
+      </button>
+      <button
+        class="icon-btn menu-btn"
+        type="button"
+        data-menu-toggle
+        aria-controls="nav-list"
+        aria-expanded="false"
+        aria-label="Open menu"
+      >
+        {{ partial "icon.html" "menu" }}
+      </button>
+    </div>
+  </div>
+  <div class="scroll-progress" data-progress aria-hidden="true"></div>
+</header>

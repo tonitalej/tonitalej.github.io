@@ -1,0 +1,281 @@
+{{ define "main" }}
+  {{- $portrait := resources.Get "images/portrait.jpg" -}}
+  {{- $p480 := $portrait.Resize "480x webp q80" -}}
+  {{- $p720 := $portrait.Resize "720x webp q80" -}}
+  {{- $pFallback := $portrait.Resize "720x jpg q82" -}}
+  {{- $posts := where site.RegularPages "Section" "blog" -}}
+
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <canvas class="hero-canvas" data-network aria-hidden="true"></canvas>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">
+          <span class="pulse" aria-hidden="true"></span>
+          {{ site.Params.role }}
+        </p>
+        <h1 id="hero-title" class="hero-title reveal">
+          Hi, I'm <span class="gradient-text">Toni Talej</span>.
+        </h1>
+        <p class="hero-typed reveal" aria-label="I connect networks, Linux systems, cloud infrastructure and full-stack apps.">
+          <span aria-hidden="true">I connect </span
+          ><span class="typed" data-typed='["networks.", "Linux systems.", "cloud infrastructure.", "full-stack apps.", "ideas to working code."]' aria-hidden="true">networks.</span
+          ><span class="caret" aria-hidden="true"></span>
+        </p>
+        <p class="hero-lead reveal">
+          A telecommunications and networks engineer from Lebanon who loves Linux, DevOps and the systems that keep the
+          world talking — and who builds full-stack TypeScript tools along the way.
+        </p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-primary" href="#projects">View my work {{ partial "icon.html" "arrow-right" }}</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+        <ul class="socials reveal" aria-label="Find me online">
+          {{- range site.Data.socials }}
+            <li>
+              <a href="{{ .link }}" aria-label="{{ .name }}" title="{{ .name }}" {{ if hasPrefix .link "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>
+                {{ partial "icon.html" .icon }}
+              </a>
+            </li>
+          {{- end }}
+        </ul>
+      </div>
+
+      <figure class="hero-photo reveal">
+        <div class="photo-frame" data-tilt>
+          <picture>
+            <source type="image/webp" srcset="{{ $p480.RelPermalink }} 480w, {{ $p720.RelPermalink }} 720w" sizes="(max-width: 900px) 70vw, 360px" />
+            <img
+              src="{{ $pFallback.RelPermalink }}"
+              width="{{ $pFallback.Width }}"
+              height="{{ $pFallback.Height }}"
+              alt="Toni Talej in graduation robes, holding his certificate"
+              fetchpriority="high"
+            />
+          </picture>
+          <span class="photo-badge photo-badge-top">{{ partial "icon.html" "pin" }} {{ site.Params.location }}</span>
+          <span class="photo-badge photo-badge-bottom">{{ partial "icon.html" "graduation" }} Telecom &amp; Networks Eng.</span>
+        </div>
+      </figure>
+    </div>
+    <a class="scroll-cue" href="#about" aria-label="Scroll to About"><span></span></a>
+  </section>
+
+
+  <!-- About -->
+  <section class="section" id="about" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="about-copy reveal">
+        <p class="section-kicker">01 · About</p>
+        <h2 id="about-title" class="section-title">Engineer by training, builder by habit.</h2>
+        <p>
+          I'm a <strong>telecommunications engineering graduate</strong> from the Lebanese University with a strong
+          interest in technology and open-source systems. I enjoy working with <strong>Linux</strong>, especially in
+          DevOps-oriented environments, and exploring modern <strong>cloud computing</strong>.
+        </p>
+        <p>
+          My interests sit where networks meet software: networking, system infrastructure, and how scalable
+          communication and cloud systems are designed and deployed. I learn by building — the projects below range from
+          secure REST APIs to AI-assisted developer tools.
+        </p>
+        <ul class="facts">
+          <li>{{ partial "icon.html" "pin" }}<span><b>Based in</b> {{ site.Params.location }}</span></li>
+          <li>{{ partial "icon.html" "graduation" }}<span><b>Studied</b> Telecom &amp; Networks Engineering, Lebanese University</span></li>
+          <li>{{ partial "icon.html" "terminal" }}<span><b>Focus</b> Networking · Linux · DevOps · Cloud</span></li>
+        </ul>
+        <dl class="stats" data-stats>
+          <div><dt>Projects shipped</dt><dd data-count="{{ len site.Data.projects }}">{{ len site.Data.projects }}</dd></div>
+          <div><dt>Skill areas</dt><dd data-count="{{ len site.Data.skills }}">{{ len site.Data.skills }}</dd></div>
+          <div><dt>OSI layers covered</dt><dd data-count="7">7</dd></div>
+        </dl>
+      </div>
+
+      {{- $info := dict
+        "name" site.Title
+        "role" site.Params.role
+        "about" "Telecom & networks engineering graduate (Lebanese University). I love Linux, DevOps and cloud, and I build full-stack TypeScript tools."
+        "email" site.Params.email
+        "github" site.Params.github
+        "linkedin" site.Params.linkedin
+        "skills" site.Data.skills
+        "projects" site.Data.projects
+      -}}
+      <div class="terminal reveal" data-terminal data-info="{{ $info | jsonify }}">
+        <div class="terminal-bar">
+          <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+          <span class="terminal-title">toni@joun: ~</span>
+        </div>
+        <div class="terminal-body" data-terminal-body role="log" aria-live="polite" aria-label="Interactive terminal output">
+          <p><span class="prompt">toni@joun:~$</span> whoami</p>
+          <p>Toni Talej — {{ site.Params.role }}</p>
+          <p class="muted">Type <b>help</b> to explore. Try <b>ping</b>, <b>skills</b> or <b>projects</b>.</p>
+        </div>
+        <form class="terminal-input" data-terminal-form>
+          <label for="term-in" class="prompt">toni@joun:~$</label>
+          <input id="term-in" name="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command" />
+        </form>
+        <noscript><p class="terminal-noscript">The interactive terminal needs JavaScript.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Skills -->
+  <section class="section section-alt" id="skills" aria-labelledby="skills-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-kicker">02 · Skills</p>
+        <h2 id="skills-title" class="section-title">From the physical layer to the application layer.</h2>
+      </div>
+      <div class="skills-grid">
+        {{- range $g := site.Data.skills }}
+          <article class="skill-card reveal">
+            <div class="skill-icon">{{ partial "icon.html" $g.icon }}</div>
+            <h3>{{ $g.title }}</h3>
+            <p class="muted">{{ $g.blurb }}</p>
+            <ul class="chips">
+              {{- range $g.items }}<li>{{ . }}</li>{{ end -}}
+            </ul>
+          </article>
+        {{- end }}
+      </div>
+      <div class="osi reveal" aria-label="The OSI model, the layers I work across">
+        {{- range $i, $l := slice "Physical" "Data link" "Network" "Transport" "Session" "Presentation" "Application" }}
+          <span class="osi-layer"><b>L{{ add $i 1 }}</b> {{ $l }}</span>
+        {{- end }}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Projects -->
+  <section class="section" id="projects" aria-labelledby="projects-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-kicker">03 · Projects</p>
+        <h2 id="projects-title" class="section-title">Things I've built.</h2>
+        {{- $tags := slice -}}
+        {{- range site.Data.projects }}{{ $tags = $tags | append .tags }}{{ end -}}
+        <div class="filters" role="group" aria-label="Filter projects" data-filters>
+          <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All</button>
+          {{- range ($tags | uniq | sort) }}
+            <button type="button" class="filter" data-filter="{{ . }}" aria-pressed="false">{{ . }}</button>
+          {{- end }}
+        </div>
+      </div>
+
+      <div class="projects-grid" data-projects>
+        {{- range site.Data.projects }}
+          {{- $url := printf "https://github.com/%s/%s" site.Params.github .repo -}}
+          <article class="project-card reveal{{ if .featured }} is-featured{{ end }}" data-tags="{{ delimit .tags "," }}" data-repo="{{ .repo }}">
+            <div class="project-top">
+              <span class="project-icon">{{ partial "icon.html" (cond (in .tags "AI") "network" "code") }}</span>
+              {{ if .featured }}<span class="badge">Featured</span>{{ end }}
+              <span class="repo-meta" data-repo-meta hidden>
+                <span data-stars>{{ partial "icon.html" "star" }} <span></span></span>
+                <span data-updated>{{ partial "icon.html" "clock" }} <span></span></span>
+              </span>
+            </div>
+            <h3><a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="stretched">{{ .title }}</a></h3>
+            <p>{{ .summary }}</p>
+            {{ with .highlights }}
+              <ul class="highlights">
+                {{- range . }}<li>{{ . }}</li>{{ end -}}
+              </ul>
+            {{ end }}
+            <ul class="stack" aria-label="Built with">
+              {{- range .stack }}<li>{{ . }}</li>{{ end -}}
+            </ul>
+            <span class="project-link" aria-hidden="true">View on GitHub {{ partial "icon.html" "arrow-up-right" }}</span>
+          </article>
+        {{- end }}
+      </div>
+      <p class="more reveal">
+        <a class="btn btn-ghost" href="https://github.com/{{ site.Params.github }}" target="_blank" rel="noopener noreferrer">
+          {{ partial "icon.html" "github" }} All repositories on GitHub
+        </a>
+      </p>
+    </div>
+  </section>
+
+
+  <!-- Journey -->
+  <section class="section section-alt" id="journey" aria-labelledby="journey-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-kicker">04 · Journey</p>
+        <h2 id="journey-title" class="section-title">How I got here.</h2>
+      </div>
+      <ol class="timeline">
+        {{- range site.Data.journey }}
+          <li class="timeline-item reveal">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <div class="timeline-card{{ if .photo }} has-photo{{ end }}">
+              <div>
+                {{ with .when }}<p class="timeline-when">{{ . }}</p>{{ end }}
+                <h3>{{ .title }}</h3>
+                <p class="timeline-place">{{ .place }}</p>
+                <p class="muted">{{ .text }}</p>
+              </div>
+              {{ with .photo }}
+                {{ $img := resources.Get . }}
+                {{ $small := $img.Resize "360x webp q78" }}
+                <img class="timeline-photo" src="{{ $small.RelPermalink }}" width="{{ $small.Width }}" height="{{ $small.Height }}" alt="Graduation ceremony on stage, Hariri Foundation, 2024–2025" loading="lazy" />
+              {{ end }}
+            </div>
+          </li>
+        {{- end }}
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- Blog -->
+  <section class="section" id="blog" aria-labelledby="blog-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-kicker">05 · Blog</p>
+        <h2 id="blog-title" class="section-title">Notes &amp; write-ups.</h2>
+      </div>
+      {{ if $posts }}
+        <div class="posts-grid">
+          {{ range first 3 $posts.ByDate.Reverse }}
+            {{ partial "post-card.html" . }}
+          {{ end }}
+        </div>
+        <p class="more reveal"><a class="btn btn-ghost" href="/blog/">All posts {{ partial "icon.html" "arrow-right" }}</a></p>
+      {{ else }}
+        <div class="empty-card reveal">
+          {{ partial "icon.html" "rss" }}
+          <p><b>First posts are on the way.</b> Expect notes on networking, Linux, DevOps and the projects above.</p>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+
+
+  <!-- Contact -->
+  <section class="section contact" id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact-card reveal">
+        <p class="section-kicker">06 · Contact</p>
+        <h2 id="contact-title" class="section-title">Let's build something that connects.</h2>
+        <p class="muted">
+          Whether it's a role, a project or a question about networks and Linux, my inbox is open.
+        </p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="mailto:{{ site.Params.email }}">{{ partial "icon.html" "mail" }} {{ site.Params.email }}</a>
+          <button class="btn btn-ghost" type="button" data-copy="{{ site.Params.email }}">
+            {{ partial "icon.html" "copy" }} <span data-copy-label>Copy email</span>
+          </button>
+        </div>
+        <ul class="contact-links">
+          <li><a href="https://github.com/{{ site.Params.github }}" target="_blank" rel="noopener noreferrer">{{ partial "icon.html" "github" }} github.com/{{ site.Params.github }}</a></li>
+          <li><a href="{{ site.Params.linkedin }}" target="_blank" rel="noopener noreferrer">{{ partial "icon.html" "linkedin" }} LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+{{ end }}

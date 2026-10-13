@@ -1,0 +1,14 @@
+{{ define "main" }}
+  <section class="page-hero not-found">
+    <div class="container narrow">
+      <p class="section-kicker">Error 404</p>
+      <h1 class="section-title">Destination host unreachable.</h1>
+      <pre class="ping-404" aria-label="Ping output: request timed out"><code>$ ping {{ .Site.BaseURL | strings.TrimPrefix "https://" | strings.TrimSuffix "/" }}{{ .RelPermalink }}
+Request timed out.
+Request timed out.
+Packets: sent = 2, received = 0, lost = 2 (100% loss)</code></pre>
+      <p class="muted">The page you're looking for isn't on this network. Let's route you back.</p>
+      <p><a class="btn btn-primary" href="/">Take me home</a></p>
+    </div>
+  </section>
+{{ end }}

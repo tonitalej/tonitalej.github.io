@@ -1,15 +1,50 @@
 baseURL = 'https://tonitalej.github.io/'
 languageCode = 'en-us'
 title = 'Toni Talej'
-theme = 'nojs'
+enableRobotsTXT = true
+summaryLength = 30
+
+[params]
+  description = 'Toni Talej — telecommunications and networks engineer from Lebanon. Networking, Linux, DevOps and cloud, plus full-stack TypeScript projects.'
+  role = 'Telecommunications & Networks Engineer'
+  location = 'Joun, Lebanon'
+  email = 'Tonitalej119@gmail.com'
+  github = 'tonitalej'
+  linkedin = 'https://www.linkedin.com/in/toni-talej-1b92252b9'
 
 [menus]
   [[menus.main]]
-    name = 'Home'
-    pageRef = '/'
+    name = 'About'
+    url = '/#about'
     weight = 1
-
+  [[menus.main]]
+    name = 'Skills'
+    url = '/#skills'
+    weight = 2
+  [[menus.main]]
+    name = 'Projects'
+    url = '/#projects'
+    weight = 3
+  [[menus.main]]
+    name = 'Journey'
+    url = '/#journey'
+    weight = 4
   [[menus.main]]
     name = 'Blog'
     pageRef = '/blog'
-    weight = 2
+    weight = 5
+  [[menus.main]]
+    name = 'Contact'
+    url = '/#contact'
+    weight = 6
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[markup.highlight]
+  noClasses = false
+  style = 'github-dark'
+
+[imaging]
+  quality = 82
+  resampleFilter = 'Lanczos'

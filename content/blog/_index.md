@@ -1,7 +1,6 @@
 ---
-date: '2026-03-09T19:42:42+02:00'
-draft: false
 title: 'Blog'
+description: 'Notes on networking, Linux, DevOps and the things I build.'
 ---
 
-No posts yet. Check back soon!
+Notes on networking, Linux, DevOps and the things I build.
